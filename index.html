@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="HypoWeave by Grownnectia - accesso al tool AI." />
+  <title>HypoWeave | by Grownnectia</title>
+  <style>
+    :root{
+      --navy:#0b2d57;
+      --blue:#0a6ee8;
+      --cyan:#17c7d8;
+      --ice:#eef7ff;
+      --text:#15304f;
+      --muted:#62748a;
+      --line:#dfeaf6;
+      --white:#ffffff;
+      --shadow:0 18px 50px rgba(17,71,126,.12);
+      --radius:26px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(circle at 92% 6%, rgba(23,199,216,.13), transparent 24%),
+        radial-gradient(circle at 72% 20%, rgba(10,110,232,.12), transparent 28%),
+        #fff;
+      line-height:1.55;
+    }
+    a{text-decoration:none;color:inherit}
+    img,svg{display:block;max-width:100%}
+    .container{width:min(1180px, calc(100% - 40px)); margin:auto}
+
+    .header{
+      position:sticky;top:0;z-index:20;
+      backdrop-filter:blur(18px);
+      background:rgba(255,255,255,.86);
+      border-bottom:1px solid rgba(223,234,246,.8);
+    }
+    .nav{
+      min-height:78px;display:flex;align-items:center;justify-content:space-between;gap:30px;
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--navy)}
+    .brand-mark{
+      width:42px;height:42px;border-radius:13px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--blue),var(--cyan));
+      box-shadow:0 10px 25px rgba(10,110,232,.25)
+    }
+    .brand-copy{line-height:1}
+    .brand-name{font-size:24px;letter-spacing:-.6px}
+    .brand-sub{font-size:11px;font-weight:600;color:var(--muted);margin-top:5px}
+    .nav-links{display:flex;gap:28px;align-items:center;font-size:14px;font-weight:700;color:#49617c}
+    .nav-links a:hover{color:var(--blue)}
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      min-height:50px;padding:0 22px;border-radius:15px;
+      font-weight:800;transition:.22s ease;border:1px solid transparent;
+    }
+    .btn-primary{
+      color:#fff;background:linear-gradient(135deg,var(--blue),#0061c9);
+      box-shadow:0 12px 28px rgba(10,110,232,.22)
+    }
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 32px rgba(10,110,232,.28)}
+    .btn-secondary{border-color:#bfd8f5;color:var(--blue);background:#fff}
+    .btn-secondary:hover{background:var(--ice)}
+
+    .hero{
+      padding:76px 0 58px;
+      overflow:hidden;
+    }
+    .hero-grid{
+      display:grid;grid-template-columns:1.03fr .97fr;gap:58px;align-items:center;
+    }
+    .eyebrow{
+      color:var(--blue);font-weight:850;font-size:13px;letter-spacing:.16em;text-transform:uppercase;
+      margin-bottom:14px;
+    }
+    h1{
+      margin:0;color:var(--navy);font-size:clamp(54px,7vw,88px);line-height:.95;letter-spacing:-3.5px;
+    }
+    .hero h2{
+      margin:24px 0 16px;font-size:clamp(27px,3.1vw,42px);line-height:1.12;letter-spacing:-1.2px;color:#102e54;
+    }
+    .hero p{font-size:18px;color:var(--muted);max-width:650px}
+    .hero-actions{display:flex;gap:14px;flex-wrap:wrap;margin:30px 0 22px}
+    .tool-url{
+      display:flex;align-items:center;gap:9px;font-size:14px;color:#5d7189;
+      word-break:break-word
+    }
+    .tool-url a{color:var(--blue);font-weight:750}
+
+    .hero-visual{
+      position:relative;min-height:530px;display:grid;place-items:center;
+    }
+    .glow{
+      position:absolute;inset:5% 0 0 5%;
+      background:radial-gradient(circle, rgba(32,191,226,.20), transparent 62%);
+      filter:blur(18px);
+    }
+    .network{
+      position:absolute;inset:0;opacity:.9;pointer-events:none;
+    }
+    .dashboard{
+      position:relative;width:min(100%,560px);border:1px solid rgba(187,215,241,.75);
+      background:rgba(255,255,255,.9);border-radius:24px;padding:18px;box-shadow:var(--shadow);
+      backdrop-filter:blur(14px);
+    }
+    .browserbar{display:flex;align-items:center;gap:7px;margin-bottom:16px}
+    .dot{width:9px;height:9px;border-radius:50%;background:#dbe7f3}
+    .search{margin-left:12px;flex:1;height:31px;border:1px solid #e4edf6;border-radius:9px;background:#fafcff}
+    .dash-grid{display:grid;grid-template-columns:118px 1fr;gap:14px}
+    .sidebar{border-right:1px solid #edf2f8;padding-right:12px}
+    .side-pill,.side-item{height:34px;border-radius:9px;display:flex;align-items:center;padding:0 10px;font-size:11px;margin-bottom:7px}
+    .side-pill{background:linear-gradient(135deg,var(--blue),#0a82f5);color:#fff;font-weight:800}
+    .side-item{color:#61758c}
+    .main-panel h3{margin:4px 0 5px;color:#18385e;font-size:22px;line-height:1.1}
+    .main-panel p{font-size:11px;margin:0 0 15px;color:#718198}
+    .mini-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+    .mini-card{padding:12px 8px;border:1px solid #e6eef8;border-radius:12px;text-align:center;background:#fbfdff}
+    .mini-icon{width:30px;height:30px;border-radius:9px;margin:0 auto 7px;display:grid;place-items:center;background:#e9f5ff;color:var(--blue);font-weight:900}
+    .mini-card b{font-size:10px;color:#385675}
+    .project-list{border:1px solid #e6eef8;border-radius:14px;padding:10px 12px;background:#fff}
+    .project{display:flex;gap:10px;align-items:center;padding:8px 2px;border-bottom:1px solid #eef3f8}
+    .project:last-child{border-bottom:0}
+    .project-icon{width:28px;height:28px;border-radius:8px;background:#eaf5ff;display:grid;place-items:center;color:var(--blue);font-size:12px}
+    .project b{display:block;font-size:10px;color:#304c6b}
+    .project span{font-size:8px;color:#8a98a8}
+    .float-card{
+      position:absolute;right:-18px;top:118px;width:150px;padding:14px;border-radius:18px;
+      background:rgba(255,255,255,.95);box-shadow:0 14px 35px rgba(39,94,148,.16);border:1px solid #e0edf8
+    }
+    .float-card h4{font-size:10px;margin:0 0 9px;color:#2d4a69}
+    .chart-card{
+      position:absolute;right:22px;bottom:42px;width:140px;padding:14px;border-radius:18px;
+      background:rgba(255,255,255,.96);box-shadow:0 14px 35px rgba(39,94,148,.15);border:1px solid #e0edf8
+    }
+    .bars{height:70px;display:flex;gap:7px;align-items:end}
+    .bars i{display:block;flex:1;border-radius:5px 5px 2px 2px;background:linear-gradient(180deg,var(--cyan),var(--blue))}
+    .bars i:nth-child(1){height:38%}.bars i:nth-child(2){height:55%}.bars i:nth-child(3){height:72%}.bars i:nth-child(4){height:88%}.bars i:nth-child(5){height:62%}
+
+    .features{padding:10px 0 82px}
+    .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .feature-card{
+      border:1px solid #e5eef7;border-radius:22px;padding:28px;background:rgba(255,255,255,.88);box-shadow:0 12px 35px rgba(31,92,150,.08)
+    }
+    .feature-icon{
+      width:50px;height:50px;border-radius:16px;background:#eaf5ff;color:var(--blue);display:grid;place-items:center;font-weight:900;margin-bottom:18px
+    }
+    .feature-card h3{margin:0 0 7px;font-size:20px;color:#17385c}
+    .feature-card p{margin:0;color:#718198;font-size:15px}
+
+    .section{
+      padding:78px 0;
+      background:linear-gradient(180deg,#fff 0%,#f7fbff 100%);
+    }
+    .section-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:70px;align-items:center}
+    .section h2{font-size:clamp(38px,4.8vw,62px);line-height:1.02;letter-spacing:-2px;color:#123358;margin:10px 0 18px}
+    .section h2 span{color:var(--blue)}
+    .section p{color:var(--muted);font-size:17px}
+    .checklist{margin-top:26px;display:grid;gap:14px}
+    .check{display:flex;align-items:center;gap:12px;color:#45617f;font-weight:700}
+    .check i{width:26px;height:26px;border-radius:50%;background:#e6f4ff;color:var(--blue);display:grid;place-items:center;font-style:normal}
+
+    .weave-illustration{
+      min-height:440px;position:relative;display:grid;place-items:center;
+    }
+    .core{
+      width:130px;height:130px;border-radius:30px;
+      background:linear-gradient(135deg,#fff, #ddf7ff);
+      border:1px solid #cce9f5;box-shadow:0 25px 60px rgba(10,110,232,.18);
+      display:grid;place-items:center;position:relative;z-index:3
+    }
+    .orbit-card{
+      position:absolute;width:150px;min-height:92px;padding:18px;border-radius:20px;background:#fff;
+      box-shadow:0 16px 40px rgba(27,82,135,.12);border:1px solid #e3eef7;z-index:2
+    }
+    .orbit-card b{display:block;margin-bottom:7px;color:#294968}
+    .orbit-card span{font-size:12px;color:#7b8c9e}
+    .oc1{left:2%;top:12%}.oc2{right:2%;top:15%}.oc3{left:6%;bottom:12%}.oc4{right:5%;bottom:10%}
+    .orbit-svg{position:absolute;inset:0;width:100%;height:100%;z-index:1}
+
+    .cta-wrap{padding:82px 0 44px}
+    .cta{
+      position:relative;overflow:hidden;border-radius:28px;padding:48px 48px;
+      background:linear-gradient(135deg,#0d315b,#072344 75%);
+      color:#fff;box-shadow:0 22px 50px rgba(7,35,68,.20);
+      display:grid;grid-template-columns:1fr .8fr;gap:30px;align-items:center
+    }
+    .cta h2{font-size:42px;line-height:1;margin:0 0 12px}
+    .cta h2 span{color:#35d0de}
+    .cta p{margin:0 0 24px;color:#d6e5f4;font-size:17px}
+    .cta .btn{background:#fff;color:#123358}
+    .cta-network{min-height:230px;position:relative}
+    .cta-network svg{position:absolute;inset:0;width:100%;height:100%}
+
+    footer{padding:26px 0 40px;color:#6d8095;font-size:13px}
+    .footer-row{display:flex;justify-content:space-between;gap:25px;align-items:center}
+    .footer-row b{color:#213f60}
+
+    @media (max-width: 900px){
+      .nav-links{display:none}
+      .hero-grid,.section-grid,.cta{grid-template-columns:1fr}
+      .hero{padding-top:45px}
+      .hero-visual{min-height:480px}
+      .feature-grid{grid-template-columns:1fr}
+      .section-grid{gap:30px}
+      .cta-network{min-height:180px}
+    }
+    @media (max-width: 600px){
+      .container{width:min(100% - 26px,1180px)}
+      .header .btn{min-height:42px;padding:0 16px}
+      .brand-name{font-size:20px}
+      h1{letter-spacing:-2px}
+      .hero-actions{flex-direction:column}
+      .hero-actions .btn{width:100%}
+      .hero-visual{min-height:430px}
+      .float-card{right:0;top:95px;transform:scale(.9)}
+      .chart-card{right:6px;bottom:10px;transform:scale(.9)}
+      .dashboard{padding:12px}
+      .dash-grid{grid-template-columns:92px 1fr}
+      .sidebar{padding-right:8px}
+      .mini-cards{grid-template-columns:1fr}
+      .mini-card:nth-child(n+2){display:none}
+      .orbit-card{width:124px;padding:13px}
+      .cta{padding:34px 26px}
+      .cta h2{font-size:34px}
+      .footer-row{flex-direction:column;align-items:flex-start}
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container nav">
+      <a href="#home" class="brand" aria-label="HypoWeave home">
+        <span class="brand-mark">
+          <svg viewBox="0 0 64 64" width="26" height="26" aria-hidden="true">
+            <path d="M9 17 24 32 9 47M25 9l15 15-8 8-15-15M39 9 24 24l8 8 15-15M55 17 40 32l15 15M25 55l15-15-8-8-15 15M39 55 24 40l8-8 15 15" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+        <span class="brand-copy">
+          <span class="brand-name">HypoWeave</span>
+          <span class="brand-sub">by Grownnectia</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navigazione principale">
+        <a href="#home">Home</a>
+        <a href="#come-funziona">Come funziona</a>
+        <a href="#accesso">Accesso</a>
+      </nav>
+
+      <a class="btn btn-primary" href="https://hypoweave-prod.up.railway.app/" target="_blank" rel="noopener">
+        Accedi
+        <span>→</span>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Intelligenza · Dati · Strategia</div>
+          <h1>HypoWeave</h1>
+          <h2>Il punto di accesso al tool AI di Grownnectia.</h2>
+          <p>
+            Un accesso semplice, ordinato e professionale alla piattaforma HypoWeave,
+            pensato per raggiungere rapidamente il tool e centralizzare il progetto.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://hypoweave-prod.up.railway.app/" target="_blank" rel="noopener">
+              Accedi al tool <span>→</span>
+            </a>
+            <a class="btn btn-secondary" href="#come-funziona">Scopri di più</a>
+          </div>
+
+          <div class="tool-url">
+            <span>↗</span>
+            <span>Accesso alla piattaforma:</span>
+            <a href="https://hypoweave-prod.up.railway.app/" target="_blank" rel="noopener">
+              hypoweave-prod.up.railway.app
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-visual" aria-label="Anteprima grafica di HypoWeave">
+          <div class="glow"></div>
+
+          <svg class="network" viewBox="0 0 700 600" aria-hidden="true">
+            <defs>
+              <linearGradient id="g1" x1="0" x2="1">
+                <stop offset="0" stop-color="#0a6ee8" stop-opacity=".2"/>
+                <stop offset="1" stop-color="#17c7d8" stop-opacity=".7"/>
+              </linearGradient>
+            </defs>
+            <path d="M35 330 C140 165 250 450 385 205 S610 150 670 310" fill="none" stroke="url(#g1)" stroke-width="2"/>
+            <path d="M10 410 C180 250 260 520 420 290 S595 240 690 425" fill="none" stroke="#0a6ee8" stroke-opacity=".22" stroke-width="2"/>
+            <path d="M90 100 C210 160 280 55 400 120 S555 210 665 92" fill="none" stroke="#17c7d8" stroke-opacity=".27" stroke-width="2"/>
+            <g fill="#17c7d8">
+              <circle cx="88" cy="100" r="7"/><circle cx="190" cy="148" r="5"/><circle cx="400" cy="120" r="8"/><circle cx="665" cy="92" r="6"/>
+            </g>
+            <g fill="#0a6ee8">
+              <circle cx="35" cy="330" r="7"/><circle cx="260" cy="374" r="5"/><circle cx="385" cy="205" r="8"/><circle cx="670" cy="310" r="7"/>
+            </g>
+          </svg>
+
+          <div class="dashboard">
+            <div class="browserbar">
+              <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+              <div class="search"></div>
+            </div>
+
+            <div class="dash-grid">
+              <aside class="sidebar">
+                <div class="side-pill">+ Nuova analisi</div>
+                <div class="side-item">Dashboard</div>
+                <div class="side-item">Progetti</div>
+                <div class="side-item">Documenti</div>
+                <div class="side-item">Analisi</div>
+                <div class="side-item">Impostazioni</div>
+              </aside>
+
+              <div class="main-panel">
+                <h3>Trasforma le tue idee in analisi intelligenti</h3>
+                <p>Organizza informazioni, documenti e insight in un unico ambiente digitale.</p>
+
+                <div class="mini-cards">
+                  <div class="mini-card"><div class="mini-icon">A</div><b>Analizza</b></div>
+                  <div class="mini-card"><div class="mini-icon">↗</div><b>Connetti</b></div>
+                  <div class="mini-card"><div class="mini-icon">✦</div><b>Genera</b></div>
+                </div>
+
+                <div class="project-list">
+                  <div class="project">
+                    <div class="project-icon">▦</div>
+                    <div><b>Analisi di mercato</b><span>Ultimo aggiornamento · oggi</span></div>
+                  </div>
+                  <div class="project">
+                    <div class="project-icon">▤</div>
+                    <div><b>Documento strategico</b><span>Ultimo aggiornamento · 1 giorno fa</span></div>
+                  </div>
+                  <div class="project">
+                    <div class="project-icon">⌕</div>
+                    <div><b>Ricerca e insight</b><span>Ultimo aggiornamento · 3 giorni fa</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="float-card">
+            <h4>Rete di conoscenza</h4>
+            <svg viewBox="0 0 120 90" aria-hidden="true">
+              <g stroke="#8fcdf7" stroke-width="1.5">
+                <path d="M18 54 45 22 71 38 99 16M18 54 62 72 71 38M45 22 99 16 105 63M62 72 105 63 71 38"/>
+              </g>
+              <g fill="#0a6ee8">
+                <circle cx="18" cy="54" r="5"/><circle cx="45" cy="22" r="5"/><circle cx="71" cy="38" r="5"/><circle cx="99" cy="16" r="5"/><circle cx="62" cy="72" r="5"/><circle cx="105" cy="63" r="5"/>
+              </g>
+            </svg>
+          </div>
+
+          <div class="chart-card">
+            <div style="font-size:10px;font-weight:800;color:#365574;margin-bottom:7px">Insight generati</div>
+            <div class="bars"><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <h3>Accesso rapido</h3>
+          <p>Un unico punto di ingresso per raggiungere la piattaforma in pochi secondi.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">◆</div>
+          <h3>Ambiente riservato</h3>
+          <p>Uno spazio dedicato, con accesso protetto e una struttura ordinata.</p>
+        </article>
+        <article class="feature-card">
+          <div class="feature-icon">◎</div>
+          <h3>Supporto Grownnectia</h3>
+          <p>Una gestione semplice e professionale del progetto e dei suoi asset digitali.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="come-funziona">
+      <div class="container section-grid">
+        <div>
+          <div class="eyebrow">HypoWeave</div>
+          <h2>Uno spazio digitale per <span>lavorare meglio</span></h2>
+          <p>
+            Una presenza essenziale ma curata, pensata per facilitare l’accesso,
+            comunicare affidabilità e mantenere ordinato l’ecosistema del progetto.
+          </p>
+
+          <div class="checklist">
+            <div class="check"><i>✓</i><span>Un punto di accesso unico al tool</span></div>
+            <div class="check"><i>✓</i><span>Infrastruttura gestita sotto account Grownnectia</span></div>
+            <div class="check"><i>✓</i><span>Esperienza semplice, chiara e professionale</span></div>
+          </div>
+        </div>
+
+        <div class="weave-illustration" aria-label="Illustrazione di dati e connessioni">
+          <svg class="orbit-svg" viewBox="0 0 700 500" aria-hidden="true">
+            <path d="M120 250 C200 60 500 60 580 250 C500 450 200 450 120 250Z" fill="none" stroke="#9edbf4" stroke-width="2"/>
+            <path d="M70 250 C210 130 490 120 630 250 C490 380 210 370 70 250Z" fill="none" stroke="#0a6ee8" stroke-opacity=".25" stroke-width="2"/>
+            <path d="M350 45 C230 130 220 360 350 455 C480 360 470 130 350 45Z" fill="none" stroke="#17c7d8" stroke-opacity=".3" stroke-width="2"/>
+            <g fill="#17c7d8">
+              <circle cx="120" cy="250" r="7"/><circle cx="580" cy="250" r="7"/><circle cx="350" cy="45" r="7"/><circle cx="350" cy="455" r="7"/>
+            </g>
+          </svg>
+
+          <div class="orbit-card oc1"><b>Documenti</b><span>Informazioni organizzate in modo ordinato.</span></div>
+          <div class="orbit-card oc2"><b>Analisi AI</b><span>Connessioni e lettura intelligente dei dati.</span></div>
+          <div class="orbit-card oc3"><b>Dati</b><span>Un ecosistema digitale centralizzato.</span></div>
+          <div class="orbit-card oc4"><b>Insight</b><span>Risultati chiari, leggibili e utilizzabili.</span></div>
+
+          <div class="core">
+            <svg viewBox="0 0 64 64" width="68" height="68" aria-hidden="true">
+              <path d="M9 17 24 32 9 47M25 9l15 15-8 8-15-15M39 9 24 24l8 8 15-15M55 17 40 32l15 15M25 55l15-15-8-8-15 15M39 55 24 40l8-8 15 15"
+                    fill="none" stroke="#0a6ee8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta-wrap" id="accesso">
+      <div class="container">
+        <div class="cta">
+          <div>
+            <h2>Entra in <span>HypoWeave</span></h2>
+            <p>Accedi direttamente al tool tramite la landing ufficiale.</p>
+            <a class="btn" href="https://hypoweave-prod.up.railway.app/" target="_blank" rel="noopener">
+              Vai al tool <span>→</span>
+            </a>
+          </div>
+
+          <div class="cta-network">
+            <svg viewBox="0 0 520 240" aria-hidden="true">
+              <defs>
+                <linearGradient id="ctaG" x1="0" x2="1">
+                  <stop offset="0" stop-color="#16c8d8"/>
+                  <stop offset="1" stop-color="#7cc5ff"/>
+                </linearGradient>
+              </defs>
+              <path d="M15 145 C95 85 155 190 235 125 S390 55 505 125" fill="none" stroke="url(#ctaG)" stroke-width="2.4"/>
+              <path d="M20 175 C115 125 180 225 270 145 S410 105 505 165" fill="none" stroke="#2c8df3" stroke-opacity=".65" stroke-width="2"/>
+              <g fill="#35d0de">
+                <circle cx="55" cy="125" r="6"/><circle cx="165" cy="160" r="7"/><circle cx="235" cy="125" r="8"/><circle cx="340" cy="84" r="7"/><circle cx="470" cy="110" r="7"/>
+              </g>
+              <g fill="#fff" font-size="12" font-family="Arial, sans-serif">
+                <text x="60" y="93">Idee</text><text x="160" y="198">Dati</text><text x="300" y="185">Analisi</text><text x="420" y="72">Risultati</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-row">
+      <div><b>HypoWeave</b> · by Grownnectia</div>
+      <div>© 2026 Grownnectia</div>
+    </div>
+  </footer>
+</body>
+</html>
